@@ -1,0 +1,29 @@
+{
+  "name": "recovery-db",
+  "version": "0.1.0",
+  "description": "SQLite schema and typed data-access layer for a single-user addiction recovery app",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc && node -e \"require('fs').copyFileSync('src/schema.sql','dist/schema.sql')\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "sqlite",
+    "recovery",
+    "better-sqlite3"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^11.8.1"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
