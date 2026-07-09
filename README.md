@@ -66,10 +66,14 @@ recordRelapse(db, alcohol.id, { startNew: true });
 - **Streaks** — `streakStats()` returns `currentMs/currentDays`, `longestMs/longestDays`
   and `relapseCount`, all computed from `clean_periods`. Opening a second period
   while one is running is rejected; use `recordRelapse(..., { startNew: true })`.
-- **Milestones** — `checkAndRecordMilestones()` is idempotent. The schema's
-  `UNIQUE(addiction_id, milestone_key)` makes each milestone a once-ever
-  achievement, so the celebration never double-fires. Thresholds live in
-  `MILESTONE_THRESHOLDS_MS` (months ≈ 30 days, a year ≈ 365 days).
+- **Milestones** — scoped to a **clean period**, not the addiction as a whole.
+  After a relapse a fresh period begins, so the same key (e.g. `24h`) can be
+  reached and celebrated again — matching the recovery-friendly principle of
+  rewarding the return after a setback. Within one period,
+  `checkAndRecordMilestones()` is idempotent via
+  `UNIQUE(clean_period_id, milestone_key)`, so the celebration never
+  double-fires. Thresholds live in `MILESTONE_THRESHOLDS_MS` (months ≈ 30 days,
+  a year ≈ 365 days).
 - **Savings** — `perDayCost()` normalises `baseline_amount/baseline_period` to a
   daily rate; `moneySavedForAddiction()` multiplies it by total clean days.
   `evaluateSavingsGoals()` stamps `achieved_at` exactly once when a goal is met.

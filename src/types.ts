@@ -83,6 +83,7 @@ export interface SavingsGoal {
 
 export interface MilestoneReached {
   id: number;
+  clean_period_id: number;
   addiction_id: number | null;
   milestone_key: MilestoneKey;
   reached_at: string;

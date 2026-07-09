@@ -78,13 +78,17 @@ CREATE TABLE IF NOT EXISTS savings_goals (
   created_at        TEXT NOT NULL
 );
 
--- Reached milestones (so the celebration animation doesn't trigger twice).
+-- Reached milestones (so the celebration animation doesn't trigger twice
+-- *within the same clean period*). Milestones are scoped to a clean period, not
+-- to the addiction as a whole: after a relapse a fresh period starts, and the
+-- user can reach and celebrate the same milestone (e.g. '24h') again.
 CREATE TABLE IF NOT EXISTS milestones_reached (
   id                INTEGER PRIMARY KEY AUTOINCREMENT,
-  addiction_id      INTEGER REFERENCES addictions(id) ON DELETE CASCADE,
+  clean_period_id   INTEGER NOT NULL REFERENCES clean_periods(id) ON DELETE CASCADE,
+  addiction_id      INTEGER REFERENCES addictions(id) ON DELETE CASCADE, -- denormalised for reporting
   milestone_key     TEXT NOT NULL,          -- '24h','3d','1w','2w','1m','3m','6m','1y'
   reached_at        TEXT NOT NULL,
-  UNIQUE(addiction_id, milestone_key)
+  UNIQUE(clean_period_id, milestone_key)
 );
 
 -- Recommended indexes.

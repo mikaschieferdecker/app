@@ -164,7 +164,7 @@ describe('milestones', () => {
     check = checkAndRecordMilestones(db, a.id, plus(25 * MS_PER_HOUR));
     expect(check.newlyReached).toEqual([]);
 
-    // 8 days → 3d, 1w newly reached (24h already recorded)
+    // 8 days → 3d, 1w newly reached (24h already recorded in this period)
     check = checkAndRecordMilestones(db, a.id, plus(8 * MS_PER_DAY));
     expect(check.newlyReached).toEqual(['3d', '1w']);
     expect(listReachedMilestones(db, a.id).map((m) => m.milestone_key)).toEqual([
@@ -173,10 +173,16 @@ describe('milestones', () => {
       '1w',
     ]);
 
-    // relapse + new streak: milestone stays once-ever (schema UNIQUE)
+    // relapse + new streak: milestones are per period, so the SAME key fires
+    // again in the fresh period. 2 days in → 24h re-reached (and celebrated).
     recordRelapse(db, a.id, { at: plus(8 * MS_PER_DAY), startNew: true });
     check = checkAndRecordMilestones(db, a.id, plus(10 * MS_PER_DAY));
-    expect(check.newlyReached).toEqual([]);
+    expect(check.newlyReached).toEqual(['24h']);
+    expect(check.next).toBe('3d');
+    // history across all periods now has two 24h entries
+    expect(
+      listReachedMilestones(db, a.id).filter((m) => m.milestone_key === '24h').length,
+    ).toBe(2);
   });
 });
 
