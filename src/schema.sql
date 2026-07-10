@@ -91,6 +91,16 @@ CREATE TABLE IF NOT EXISTS milestones_reached (
   UNIQUE(clean_period_id, milestone_key)
 );
 
+-- Daily check-in ("How are you today?"), shown on the home dashboard.
+-- One row per calendar day (UTC); re-checking in the same day updates the row.
+CREATE TABLE IF NOT EXISTS daily_checkins (
+  id                INTEGER PRIMARY KEY AUTOINCREMENT,
+  checkin_date      TEXT NOT NULL UNIQUE,   -- 'YYYY-MM-DD'
+  mood              INTEGER CHECK (mood BETWEEN 1 AND 5),
+  note              TEXT,
+  created_at        TEXT NOT NULL
+);
+
 -- Recommended indexes.
 CREATE INDEX IF NOT EXISTS idx_clean_addiction ON clean_periods(addiction_id, started_at);
 CREATE INDEX IF NOT EXISTS idx_craving_time    ON craving_logs(occurred_at);
