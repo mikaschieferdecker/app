@@ -30,3 +30,4 @@ export * from './panic/index.js';
 export * from './cravingLog/index.js';
 export * from './stats/index.js';
 export * from './emergency/index.js';
+export * from './toolbox/index.js';
