@@ -36,9 +36,9 @@ export const HOTLINES: Hotline[] = [
   },
   {
     name: 'Sucht- & Drogen-Hotline',
-    phone: '01806 31 30 31',
+    phone: '01805 31 30 31',
     description: 'Erste Anlaufstelle bei Suchtfragen und Weitervermittlung.',
-    availability: '0,20 €/Anruf',
+    availability: '0,14 €/Min aus dem Festnetz',
   },
 ];
 
