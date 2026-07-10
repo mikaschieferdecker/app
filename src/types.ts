@@ -88,3 +88,11 @@ export interface MilestoneReached {
   milestone_key: MilestoneKey;
   reached_at: string;
 }
+
+export interface DailyCheckin {
+  id: number;
+  checkin_date: string; // 'YYYY-MM-DD'
+  mood: number | null; // 1..5
+  note: string | null;
+  created_at: string;
+}

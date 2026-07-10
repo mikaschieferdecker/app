@@ -1,5 +1,8 @@
 import type { MilestoneKey } from './types.js';
 
+/** A clock returning the current time as an ISO string. Injected for testability. */
+export type Clock = () => string;
+
 export const MS_PER_SECOND = 1000;
 export const MS_PER_MINUTE = 60 * MS_PER_SECOND;
 export const MS_PER_HOUR = 60 * MS_PER_MINUTE;
@@ -15,6 +18,11 @@ export function toMillis(iso: string): number {
   const ms = Date.parse(iso);
   if (Number.isNaN(ms)) throw new Error(`Invalid ISO timestamp: ${iso}`);
   return ms;
+}
+
+/** The UTC calendar day ('YYYY-MM-DD') of an ISO timestamp. */
+export function toDateString(iso: string = nowIso()): string {
+  return new Date(toMillis(iso)).toISOString().slice(0, 10);
 }
 
 /**

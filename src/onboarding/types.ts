@@ -1,7 +1,7 @@
 import type { AddictionType, BaselinePeriod, Goal } from '../types.js';
 
-/** A clock returning the current time as an ISO string. Injected for testability. */
-export type Clock = () => string;
+// Re-exported for compatibility; the canonical definition lives in ../time.js.
+export type { Clock } from '../time.js';
 
 /** Ordered step identifiers. `safety` is conditional (see {@link orderedSteps}). */
 export type OnboardingStepId =

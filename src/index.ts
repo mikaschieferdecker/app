@@ -22,5 +22,7 @@ export * from './repositories/contacts.js';
 export * from './repositories/reasons.js';
 export * from './repositories/savings.js';
 export * from './repositories/milestones.js';
+export * from './repositories/dailyCheckins.js';
 
 export * from './onboarding/index.js';
+export * from './home/index.js';
